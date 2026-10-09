@@ -6,6 +6,14 @@ CONF="${SQLE_BASE}/etc/config.yaml"
 if grep -q "# sqle-init" ${CONF}; then
     echo "sqle config has been init"
 else
+    # CVE-2025-15107 fail-safe: refuse to render without a real secret; dms and
+    # sqled also refuse to start on an empty secret_key.
+    if [ -z "${SQLE_SECRET_KEY}" ]; then
+        echo "FATAL: SQLE_SECRET_KEY is empty; refusing to start with publicly known default JWT/AES keys (CVE-2025-15107)" >&2
+        exit 1
+    fi
+    # inject the root secret into BOTH secret_key fields (dms: + sqle: sections)
+    sed -i "s|^  secret_key:.*|  secret_key: ${SQLE_SECRET_KEY}|" ${CONF}
     # DMS 配置
     sed -i "s|^    host: 127.0.0.1|    host: ${CB_HOST}|" ${CONF}
     sed -i "s|port: 8978|port: ${CB_PORT}|" ${CONF}
