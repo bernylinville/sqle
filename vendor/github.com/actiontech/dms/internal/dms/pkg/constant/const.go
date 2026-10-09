@@ -248,14 +248,24 @@ func ParseDBType(s string) (DBType, error) {
 		return DBTypeHive, nil
 	case "DM":
 		return DBTypeDM, nil
-	case "GaussDB for MySQL":
+	case "GaussDB":
 		return DBTypeGaussDB, nil
+	case "GaussDB for MySQL":
+		return DBTypeGaussDBForMySQL, nil
 	case "HANA":
 		return DBTypeHANA, nil
 	case "PolarDB For MySQL":
 		return DBTypePolarDBForMySQL, nil
+	case "MongoDB":
+		return DBTypeMongoDB, nil
+	case "Redis":
+		return DBTypeRedis, nil
 	case "OceanBase For Oracle":
 		return DBTypeOceanBaseOracle, nil
+	case "KingBase":
+		return DBTypeKingBase, nil
+	case "GBase-8a":
+		return DBTypeGBase8a, nil
 
 	default:
 		return "", fmt.Errorf("invalid db type: %s", s)
@@ -263,42 +273,47 @@ func ParseDBType(s string) (DBType, error) {
 }
 
 const (
-	DBTypeMySQL          DBType = "MySQL"
-	DBTypePostgreSQL     DBType = "PostgreSQL"
-	DBTypeTiDB           DBType = "TiDB"
-	DBTypeSQLServer      DBType = "SQL Server"
-	DBTypeOracle         DBType = "Oracle"
-	DBTypeDB2            DBType = "DB2"
-	DBTypeOceanBaseMySQL DBType = "OceanBase For MySQL"
-	DBTypeTDSQLForInnoDB DBType = "TDSQL For InnoDB"
-	DBTypeGoldenDB       DBType = "GoldenDB"
-	DBTypeTBase          DBType = "TBase"
-	DBTypeHive           DBType = "Hive"
-	DBTypeDM             DBType = "达梦(DM)"
-	DBTypeGaussDB        DBType = "GaussDB / openGauss"
-	DBTypeHANA              DBType = "HANA"
-	DBTypePolarDBForMySQL   DBType = "PolarDB For MySQL"
-	DBTypeOceanBaseOracle   DBType = "OceanBase For Oracle"
+	DBTypeMySQL           DBType = "MySQL"
+	DBTypePostgreSQL      DBType = "PostgreSQL"
+	DBTypeTiDB            DBType = "TiDB"
+	DBTypeSQLServer       DBType = "SQL Server"
+	DBTypeOracle          DBType = "Oracle"
+	DBTypeDB2             DBType = "DB2"
+	DBTypeOceanBaseMySQL  DBType = "OceanBase For MySQL"
+	DBTypeTDSQLForInnoDB  DBType = "TDSQL For InnoDB"
+	DBTypeGoldenDB        DBType = "GoldenDB"
+	DBTypeTBase           DBType = "TBase"
+	DBTypeHive            DBType = "Hive"
+	DBTypeDM              DBType = "达梦(DM)"
+	DBTypeGaussDB         DBType = "GaussDB"
+	DBTypeGaussDBForMySQL DBType = "GaussDB for MySQL"
+	DBTypeHANA            DBType = "HANA"
+	DBTypePolarDBForMySQL DBType = "PolarDB For MySQL"
+	DBTypeMongoDB         DBType = "MongoDB"
+	DBTypeRedis           DBType = "Redis"
+	DBTypeOceanBaseOracle DBType = "OceanBase For Oracle"
+	DBTypeKingBase        DBType = "KingBase"
+	DBTypeGBase8a         DBType = "GBase-8a"
 )
 
 var supportedDataExportDBTypes = map[DBType]struct{}{
-	DBTypeMySQL:          {},
-	DBTypePostgreSQL:     {},
-	DBTypeOracle:         {},
-	DBTypeSQLServer:      {},
-	DBTypeOceanBaseMySQL: {},
-	DBTypeHive:           {},
-	DBTypeDM:             {},
-	// 新增数据源 (Issue #593)
-	DBTypeTiDB:           {},
-	DBTypeTDSQLForInnoDB: {},
-	DBTypeGoldenDB:       {},
-	DBTypeTBase:          {},
-	DBTypeGaussDB:        {},
-	DBTypeDB2:            {},
-	DBTypeHANA:              {},
-	DBTypePolarDBForMySQL:   {},
-	DBTypeOceanBaseOracle:   {},
+	DBTypeMySQL:           {},
+	DBTypePostgreSQL:      {},
+	DBTypeOracle:          {},
+	DBTypeSQLServer:       {},
+	DBTypeOceanBaseMySQL:  {},
+	DBTypeHive:            {},
+	DBTypeDM:              {},
+	DBTypeTiDB:            {},
+	DBTypeTDSQLForInnoDB:  {},
+	DBTypeGoldenDB:        {},
+	DBTypeTBase:           {},
+	DBTypeGaussDB:         {},
+	DBTypeGaussDBForMySQL: {},
+	DBTypeDB2:             {},
+	DBTypeHANA:            {},
+	DBTypePolarDBForMySQL: {},
+	DBTypeOceanBaseOracle: {},
 }
 
 func CheckDBTypeIfDataExportSupported(dbtype string) bool {

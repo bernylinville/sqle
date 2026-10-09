@@ -49,6 +49,18 @@ func Md5String(data string) string {
 	return hex.EncodeToString(md5Data)
 }
 
+// Md5 hashes src with MD5 and returns the hex encoding.
+//
+// The former sqle/utils AES helpers (default-key encryptor, JWT signer) were
+// removed as dead code carrying hardcoded default key material
+// (CVE-2025-15107 / GHSA-43h9-hc38-qph5); signing and encryption now live in
+// the vendored dms-common secretkey/aes/jwt packages.
+func Md5(src string) string {
+	m := md5.New()
+	m.Write([]byte(src))
+	return hex.EncodeToString(m.Sum(nil))
+}
+
 func HasPrefix(s, prefix string, caseSensitive bool) bool {
 	if caseSensitive {
 		return strings.HasPrefix(s, prefix)

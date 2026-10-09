@@ -50,8 +50,6 @@ github.com/VividCortex/ewma v1.1.1 h1:MnEK4VOv6n0RSY4vtRe3h11qjxL3+t0B8yOL8iMXdc
 github.com/VividCortex/ewma v1.1.1/go.mod h1:2Tkkvm3sRDVXaiyucHiACn4cqf7DpdyLvmxzcbUokwA=
 github.com/acomagu/bufpipe v1.0.4 h1:e3H4WUzM3npvo5uv95QuJM3cQspFNtFBzvJ2oNjKIDQ=
 github.com/acomagu/bufpipe v1.0.4/go.mod h1:mxdxdup/WdsKVreO5GpW4+M/1CE2sMG4jeGJ2sYmHc4=
-github.com/actiontech/dms v0.0.0-20260520024857-5bc318ea23da h1:gqH1kMLosYkw4zZuAf7OAqPxO6ej8dbY6+QPhQ5Uvpk=
-github.com/actiontech/dms v0.0.0-20260520024857-5bc318ea23da/go.mod h1:I6rK7A4GRDHNbGUiYl29fBoQfzWZbg38yHgrF0cCDvs=
 github.com/actiontech/java-sql-extractor v0.0.0-20251017060055-4ea7aa0b19dd h1:FzXCTrceBXmCOfC63Ij1EoIP4+rhhoJDdM7d15QKY9M=
 github.com/actiontech/java-sql-extractor v0.0.0-20251017060055-4ea7aa0b19dd/go.mod h1:adDZHhAf2LRMx2h0JzofPXn12x2XlyQjVE116KXquwo=
 github.com/actiontech/mybatis-mapper-2-sql v0.5.1-0.20250307064901-aabaceee2249 h1:BjbL364Bl45WMARnEqZrT7Pd0rMhd4vvnQbMvxX3iQw=
@@ -116,6 +114,8 @@ github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
+github.com/bernylinville/dms v0.0.0-20261009142155-809bc3a5fbd3 h1:9/uaRrfyxsiW/KGPkKjD4oGToEHPkWdDLQ/rrg0xFz8=
+github.com/bernylinville/dms v0.0.0-20261009142155-809bc3a5fbd3/go.mod h1:/txoOHoVPdYhZ5QyIt/0ndUzToWW14QiI+jTOTEu0Bo=
 github.com/bgentry/speakeasy v0.1.0/go.mod h1:+zsyZBPWlz7T6j88CTgSN5bM796AkVf0kBD4zp0CCIs=
 github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c/go.mod h1:MKsuJmJgSg28kpZDP6UIiPt0e0Oz0kqKNGyRaWEPv84=
 github.com/blacktear23/go-proxyprotocol v0.0.0-20180807104634-af7a81e8dd0d/go.mod h1:VKt7CNAQxpFpSDz3sXyj9hY/GbVsQCr0sB3w59nE7lU=

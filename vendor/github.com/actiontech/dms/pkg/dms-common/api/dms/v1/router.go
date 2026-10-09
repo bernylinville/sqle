@@ -1,8 +1,11 @@
 package v1
 
 import (
+	"errors"
 	"fmt"
 	"strings"
+
+	"github.com/actiontech/dms/pkg/dms-common/pkg/secretkey"
 )
 
 // login config
@@ -16,6 +19,7 @@ var (
 	UserRouterGroup               = "/dms/users"
 	DBServiceRouterGroup          = "/dms/projects/:project_uid/db_services"
 	DBEnvironmentTagGroup         = "/dms/projects/:project_uid/environment_tags"
+	OpsTypeRouterGroup            = "/dms/projects/:project_uid/ops_types"
 	ProxyRouterGroup              = "/dms/proxys"
 	PluginRouterGroup             = "/dms/plugins"
 	MemberRouterGroup             = "/dms/projects/:project_uid/members"
@@ -34,10 +38,21 @@ var (
 	CurrentGroupVersion = GroupV1
 )
 
-func ResetJWTSigningKey(val string) {
-	if val != "" {
-		JwtSigningKey = []byte(val)
+// ResetJWTSigningKey replaces the JWT signing key with a 32-byte key derived
+// from the given root secret via HKDF-SHA256 (domain InfoJWT), instead of
+// using the raw configured secret. See CVE-2025-15107 / GHSA-43h9-hc38-qph5.
+func ResetJWTSigningKey(val string) error {
+	if val == "" {
+		return errors.New("reset jwt signing key: empty secret_key")
 	}
+
+	derivedKey, err := secretkey.DeriveKey(val, secretkey.InfoJWT)
+	if err != nil {
+		return err
+	}
+
+	JwtSigningKey = derivedKey
+	return nil
 }
 
 func GetUserOpPermissionRouter(userUid string) string {
@@ -95,4 +110,8 @@ func GetDBConnectionAbleRouter() string {
 
 func GetGlobalDataExportWorkflowsRouter() string {
 	return fmt.Sprintf("%s%s", CurrentGroupVersion, "/dms/dashboard/data_export_workflows")
+}
+
+func GetOpsTypesRouter(projectUid string) string {
+	return fmt.Sprintf("%s%s", CurrentGroupVersion, strings.Replace(OpsTypeRouterGroup, ":project_uid", projectUid, 1))
 }

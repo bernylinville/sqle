@@ -8,8 +8,11 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"sync"
+
+	"github.com/actiontech/dms/pkg/dms-common/pkg/secretkey"
 )
 
 var SecretKey = []byte("471F77D078C5994BD06B65B8B5B1935B")
@@ -31,12 +34,22 @@ func NewEncryptor(key []byte) *encryptor {
 	}
 }
 
+// ResetAesSecretKey replaces the AES data-encryption key with a 32-byte key
+// derived from the given root secret via HKDF-SHA256 (domain InfoAES).
+// The root secret is no longer required to be exactly 16/24/32 bytes long;
+// only the derived key is used with the block cipher. See CVE-2025-15107 /
+// GHSA-43h9-hc38-qph5.
 func ResetAesSecretKey(secret string) error {
 	if secret == "" {
-		return nil
+		return errors.New("reset aes secret key: empty secret_key")
 	}
 
-	return std.SetAesSecretKey([]byte(secret))
+	derivedKey, err := secretkey.DeriveKey(secret, secretkey.InfoAES)
+	if err != nil {
+		return err
+	}
+
+	return std.SetAesSecretKey(derivedKey)
 }
 
 func (e *encryptor) SetAesSecretKey(key []byte) (err error) {

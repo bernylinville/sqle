@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	dmsCommonAes "github.com/actiontech/dms/pkg/dms-common/pkg/aes"
+	dmsCommonSecretkey "github.com/actiontech/dms/pkg/dms-common/pkg/secretkey"
 	"github.com/actiontech/dms/pkg/dms-common/pkg/http"
 	"github.com/actiontech/sqle/sqle/api"
 	"github.com/actiontech/sqle/sqle/dms"
@@ -174,6 +175,12 @@ func validateConfig(options *config.SqleOptions) error {
 		if options.ReportHost == "" {
 			return fmt.Errorf("report host is required on cluster mode")
 		}
+	}
+	// fail-safe for CVE-2025-15107 / GHSA-43h9-hc38-qph5: a missing or weak
+	// secret_key must abort startup instead of silently running on publicly
+	// known default JWT/AES keys that allow forged admin tokens.
+	if err := dmsCommonSecretkey.Validate(options.SecretKey); err != nil {
+		return fmt.Errorf("refusing to start: %v. Set sqle.secret_key in the config to at least %d random bytes (e.g. openssl rand -hex 32). Running with an empty or weak secret_key would fall back to publicly known default keys and allow authentication bypass (CVE-2025-15107 / GHSA-43h9-hc38-qph5)", err, dmsCommonSecretkey.MinRootSecretLength)
 	}
 	return nil
 }

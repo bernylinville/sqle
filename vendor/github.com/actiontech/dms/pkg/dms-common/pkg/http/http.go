@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -20,16 +21,21 @@ var DefaultDMSToken = fmt.Sprintf("Bearer %s", defaultDMSToken)
 
 func ResetJWTSigningKeyAndDefaultToken(val string) error {
 	if val == "" {
-		return nil
+		return errors.New("reset jwt signing key and default dms token: empty secret_key")
 	}
 
+	// the built-in token has to be parsed with the current (pre-reset)
+	// signing key, so that the internal service token can be re-signed
+	// under the new key right after the key is replaced.
 	uid, err := jwt.ParseUidFromJwtTokenStr(defaultDMSToken)
 	if err != nil {
 		return err
 	}
 
 	// reset jwt singing key
-	v1.ResetJWTSigningKey(val)
+	if err := v1.ResetJWTSigningKey(val); err != nil {
+		return err
+	}
 
 	// expire time: 50 years later
 	token, err := jwt.GenJwtToken(jwt.WithUserId(uid), jwt.WithExpiredTime(time.Hour*24*365*50))

@@ -184,6 +184,7 @@ require (
 
 replace (
 	cloud.google.com/go/compute/metadata => cloud.google.com/go/compute/metadata v0.1.0
+	github.com/actiontech/dms => github.com/bernylinville/dms v0.0.0-20261009142155-809bc3a5fbd3
 	github.com/labstack/echo/v4 => github.com/labstack/echo/v4 v4.6.1
 	github.com/pingcap/log => github.com/pingcap/log v0.0.0-20191012051959-b742a5d432e9
 	github.com/pingcap/parser => github.com/sjjian/parser v0.0.0-20260825094816-b6aefd90e347
